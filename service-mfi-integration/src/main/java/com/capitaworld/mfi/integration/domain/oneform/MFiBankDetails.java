@@ -8,13 +8,19 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "mfi_bank_details")
+@Table(name = "applicant_bank_details")
 public class MFiBankDetails extends Auditor {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	
+	@Column(name = "applicant_detail_Id")
+	private Long applicantDetailId;
+	
+	@Column(name = "application_Id")
+	private Long applicationId;
 
 	@Column(name = "bank_Name")
 	private String bankName;
@@ -43,6 +49,24 @@ public class MFiBankDetails extends Auditor {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	
+
+	public Long getApplicantDetailId() {
+		return applicantDetailId;
+	}
+
+	public void setApplicantDetailId(Long applicantDetailId) {
+		this.applicantDetailId = applicantDetailId;
+	}
+
+	public Long getApplicationId() {
+		return applicationId;
+	}
+
+	public void setApplicationId(Long applicationId) {
+		this.applicationId = applicationId;
 	}
 
 	public String getBankName() {
