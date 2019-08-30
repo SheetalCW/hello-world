@@ -10,12 +10,19 @@ import javax.persistence.Table;
 import com.capitaworld.mfi.integration.domain.oneform.Auditor;
 
 @Entity
-@Table(name = "mfi_income_details")
+@Table(name = "applicant_income_details")
 public class MFiIncomeDetails extends Auditor {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	
+	@Column(name = "applicant_detail_Id")
+	private Long applicantDetailId;
+
+	
+	@Column(name = "application_Id")
+	private Long applicationId;
 
 	@Column(name = "relation")
 	private String relation;
@@ -41,6 +48,23 @@ public class MFiIncomeDetails extends Auditor {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	
+	public Long getApplicantDetailId() {
+		return applicantDetailId;
+	}
+
+	public void setApplicantDetailId(Long applicantDetailId) {
+		this.applicantDetailId = applicantDetailId;
+	}
+
+	public Long getApplicationId() {
+		return applicationId;
+	}
+
+	public void setApplicationId(Long applicationId) {
+		this.applicationId = applicationId;
 	}
 
 	public String getRelation() {

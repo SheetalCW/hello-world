@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "mfi_expense_expected_income_details")
+@Table(name = "applicant_expense_expected_income_details")
 public class MFiExpenseExpectedIncomeDetails extends Auditor {
 
 	private static final long serialVersionUID = 1L;
@@ -18,6 +18,12 @@ public class MFiExpenseExpectedIncomeDetails extends Auditor {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	
+	@Column(name = "applicant_detail_Id")
+	private Long applicantDetailId;
+	
+	@Column(name = "application_Id")
+	private Long applicationId;
 
 	@Column(name = "education_expense")
 	private Double educationExpense;
@@ -73,6 +79,23 @@ public class MFiExpenseExpectedIncomeDetails extends Auditor {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	
+	public Long getApplicantDetailId() {
+		return applicantDetailId;
+	}
+
+	public void setApplicantDetailId(Long applicantDetailId) {
+		this.applicantDetailId = applicantDetailId;
+	}
+
+	public Long getApplicationId() {
+		return applicationId;
+	}
+
+	public void setApplicationId(Long applicationId) {
+		this.applicationId = applicationId;
 	}
 
 	public Double getEducationExpense() {

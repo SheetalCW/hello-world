@@ -8,13 +8,19 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "mfi_assets_details")
+@Table(name = "applicant_assets_details")
 public class MFiAssetsDetails extends Auditor {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	
+	@Column(name = "applicant_detail_Id")
+	private Long applicantDetailId;
+	
+	@Column(name = "application_Id")
+	private Long applicationId;
 
 	@Column(name = "assets_type_name")
 	private String assetsTypeName;
@@ -34,6 +40,24 @@ public class MFiAssetsDetails extends Auditor {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	
+
+	public Long getApplicantDetailId() {
+		return applicantDetailId;
+	}
+
+	public void setApplicantDetailId(Long applicantDetailId) {
+		this.applicantDetailId = applicantDetailId;
+	}
+
+	public Long getApplicationId() {
+		return applicationId;
+	}
+
+	public void setApplicationId(Long applicationId) {
+		this.applicationId = applicationId;
 	}
 
 	public String getAssetsTypeName() {
