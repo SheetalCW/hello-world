@@ -11,9 +11,16 @@ import org.springframework.stereotype.Service;
 
 import com.capitaworld.mfi.integration.api.api_url_and_constants.CommonUtils;
 import com.capitaworld.mfi.integration.api.model.oneform.ApplicantDetailsRequest;
+import com.capitaworld.mfi.integration.api.model.oneform.BankDetailsRequest;
 import com.capitaworld.mfi.integration.api.model.oneform.OneFormRequest;
 import com.capitaworld.mfi.integration.domain.oneform.MFiApplicantDetails;
+import com.capitaworld.mfi.integration.domain.oneform.MFiBankDetails;
 import com.capitaworld.mfi.integration.repository.oneform.MFiApplicantDetailsRepository;
+import com.capitaworld.mfi.integration.repository.oneform.MFiAssetsDetailsRepository;
+import com.capitaworld.mfi.integration.repository.oneform.MFiBankDetailsRepository;
+import com.capitaworld.mfi.integration.repository.oneform.MFiCurrentFinancialArrangementsDetailsRepository;
+import com.capitaworld.mfi.integration.repository.oneform.MFiExpenseExpectedIncomeDetailsRepository;
+import com.capitaworld.mfi.integration.repository.oneform.MFiIncomeDetailsRepository;
 import com.capitaworld.mfi.integration.service.oneform.OneFormService;
 
 @Service
@@ -23,6 +30,21 @@ public class OneFormServiceImpl implements OneFormService {
 
 	@Autowired 
 	private MFiApplicantDetailsRepository mfiApplicantDetailsRepository;
+	
+	@Autowired 
+	private MFiBankDetailsRepository mfiBankDetailsRepository;
+	
+	@Autowired 
+	private MFiAssetsDetailsRepository mfiAssetsDetailsRepository;
+	
+	@Autowired 
+	private MFiCurrentFinancialArrangementsDetailsRepository mfiCurrentFinancialArrangementsDetailsRepository;
+	
+	@Autowired 
+	private MFiExpenseExpectedIncomeDetailsRepository mfiExpenseExpectedIncomeDetailsRepository;
+	
+	@Autowired 
+	private MFiIncomeDetailsRepository mfiIncomeDetailsRepository;
 
 	@Override
 	public Boolean saveOneFormInfo(OneFormRequest oneFormRequest) {
@@ -41,12 +63,12 @@ public class OneFormServiceImpl implements OneFormService {
 	}
 
 
-//for saving apllicant details
+//SAVING APPLICANT DETAILS
 	
 	private void saveApplicantDetails(ApplicantDetailsRequest applicantDetailsRequest, Long applicationId) {
 		logger.info("============== Enter in saveApplicantDetails ==================== applicationId ==> {} " ,  applicationId);
 		
-		List<MFiApplicantDetails> applicantDetailList = mfiApplicantDetailsRepository.findByApplicationIdAndIsCoApplicantAndIsActiveIsTrue(applicationId, true);
+		List<MFiApplicantDetails> applicantDetailList = mfiApplicantDetailsRepository.findByApplicationIdAndIsCoApplicantAndIsActiveIsTrue(applicationId, false);
 		MFiApplicantDetails applicantDetails;
 		if(applicantDetailList.isEmpty()) {
 			applicantDetails=new MFiApplicantDetails();
@@ -64,12 +86,47 @@ public class OneFormServiceImpl implements OneFormService {
 		applicantDetails.setApplicationId(applicationId);
 		applicantDetails.setIsCoApplicant(false);
 		
-		mfiApplicantDetailsRepository.save(applicantDetails);
-		logger.info("--------- save saveCollateralSecurityDetail ------------ ");
-		logger.info("============== Exit from  saveCollateralSecurityDetail ====================  ");	
+		//will return generated key for new inserted record
+		applicantDetails = mfiApplicantDetailsRepository.save(applicantDetails);
+		Long applicantDetailId=applicantDetails.getId();
+		
+		BankDetailsRequest bankDetailsRequest = applicantDetailsRequest.getBankDetails();
+		saveApplicantBankDetails(bankDetailsRequest, applicationId,applicantDetailId);
+	
+		
+		//bankDetails applicationId priApplicantId
+		logger.info("--------- save saveApplicantDetails ------------ ");
+		logger.info("============== Exit from  saveApplicantDetails ====================  ");	
 
 		
 	}
+
+//SAVING BANK DETAILS
+private void saveApplicantBankDetails(BankDetailsRequest bankDetailsRequest, Long applicationId, Long applicantDetailId) {
+	
+	logger.info("============== Enter in saveBankDetails ==================== applicationId ==> {} " ,  applicationId);
+	
+	List<MFiBankDetails> bankDetailList = mfiBankDetailsRepository.findByApplicantDetailIdAndIsActiveIsTrue(applicantDetailId);
+	MFiBankDetails bankDetails;
+	if(bankDetailList.isEmpty()) {
+		bankDetails=new MFiBankDetails();
+		CommonUtils.copyProperties(bankDetailsRequest, bankDetails);
+		bankDetails.setIsActive(true);
+		bankDetails.setCreatedBy(1l);
+		bankDetails.setCreatedDate(new Date());
+		
+	}else {
+		bankDetails = bankDetailList.get(0);
+		CommonUtils.copyProperties(bankDetailsRequest, bankDetails);
+		bankDetails.setModifiedBy(1l);
+		bankDetails.setModifiedDate(new Date());
+	}	
+	
+	mfiBankDetailsRepository.save(bankDetails);
+	logger.info("--------- save saveBankDetails ------------ ");
+	logger.info("============== Exit from  saveBankDetails ====================  ");	
+	
+}
 
 	/*
 	 * private void saveCoApplicantDetails(List<ApplicantDetailsRequest>
