@@ -16,4 +16,5 @@ public class MFiIntegrationApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MFiIntegrationApplication.class, args);
 	}
+	
 }
