@@ -46,7 +46,7 @@ public class OneFormServiceImpl implements OneFormService {
 	private void saveApplicantDetails(ApplicantDetailsRequest applicantDetailsRequest, Long applicationId) {
 		logger.info("============== Enter in saveApplicantDetails ==================== applicationId ==> {} " ,  applicationId);
 		
-		List<MFiApplicantDetails> applicantDetailList = mfiApplicantDetailsRepository.findByApplicationIdAndIsCoApplicantDetailsAndIsActiveIsTrue(applicationId, true);
+		List<MFiApplicantDetails> applicantDetailList = mfiApplicantDetailsRepository.findByApplicationIdAndIsCoApplicantAndIsActiveIsTrue(applicationId, true);
 		MFiApplicantDetails applicantDetails;
 		if(applicantDetailList.isEmpty()) {
 			applicantDetails=new MFiApplicantDetails();
