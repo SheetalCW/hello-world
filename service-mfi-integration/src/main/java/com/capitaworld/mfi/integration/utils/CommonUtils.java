@@ -1,6 +1,11 @@
 package com.capitaworld.mfi.integration.utils;
 
+import java.util.Date;
+import java.util.function.Supplier;
+
 import org.springframework.util.ObjectUtils;
+
+import com.capitaworld.mfi.integration.domain.oneform.Auditor;
 
 /** Class for provide common functionalities
  * @author dharmendra.chudasama
@@ -55,4 +60,26 @@ public class CommonUtils {
 	
 	//--------------------------- Methods -------------------------------
 
+	/** Method for set audit component values
+	 * @param request request class
+	 * @param entity fetched entity class
+	 * @param constructor reference of constructor of entity, will call if required
+	 * @return Generated entity (never null)
+	 * @author Dharmendrasinh Chudasama
+	 */
+	public static <T extends Auditor> T setAuditDetail(Object request, T entity, Supplier<T> constructor) {
+		if(entity == null ) {
+			entity = constructor.get();
+			entity.setCreatedBy(-1l);
+			entity.setCreatedDate(new Date());
+			
+			entity.setIsActive(true);
+		}else {
+			entity.setModifiedBy(-1l);
+			entity.setModifiedDate(new Date());
+		}
+		com.capitaworld.mfi.integration.api.api_url_and_constants.CommonUtils.copyProperties(request, entity, com.capitaworld.mfi.integration.api.api_url_and_constants.CommonUtils.IGNORE_AUDOTIR_FIELDS);
+
+		return entity;
+	}
 }
