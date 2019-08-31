@@ -285,6 +285,14 @@ public class MFiApplicantDetails extends Auditor {
 
 	private IncomeDetailsRequest incomeDetailsList;
 	private AssetsDetailsRequest assetsDetailsList;
+	
+	
+	
+	
+	
+	
+	
+	
 	public Long getId() {
 		return id;
 	}

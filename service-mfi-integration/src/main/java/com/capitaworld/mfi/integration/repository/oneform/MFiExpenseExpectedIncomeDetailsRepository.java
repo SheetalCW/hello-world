@@ -6,5 +6,8 @@ import com.capitaworld.mfi.integration.domain.oneform.MFiExpenseExpectedIncomeDe
 
 public interface MFiExpenseExpectedIncomeDetailsRepository
 		extends JpaRepository<MFiExpenseExpectedIncomeDetails, Long> {
+	
+	
+	MFiExpenseExpectedIncomeDetails findByApplicantDetailIdAndIsActiveIsTrue(Long applicantDetailId);
 
 }
