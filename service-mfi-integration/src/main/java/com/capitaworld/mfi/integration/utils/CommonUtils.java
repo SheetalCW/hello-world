@@ -22,6 +22,13 @@ import com.capitaworld.mfi.integration.domain.oneform.Auditor;
  *
  */
 public class CommonUtils {
+	
+	//Singleton
+	private static final CommonUtils instance = new CommonUtils();
+	public static final CommonUtils instance(){
+		return instance;
+	}
+	private CommonUtils(){};
 
 	/**
 	 * copy field data from source to target
