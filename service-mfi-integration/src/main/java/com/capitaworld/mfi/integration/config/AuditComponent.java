@@ -39,6 +39,7 @@ public class AuditComponent {
 	public static final int GST_DETAIL = 22;
 	public static final int FINAL_DISPLAY = 24;
 	public static final int ADDITIONAL_DETAIL = 25;
+	public static final int SAVE_ONE_FORM_DETAILS = 26;
 
 	@Autowired
 	private AuditMasterRepository auditMasterRepository;

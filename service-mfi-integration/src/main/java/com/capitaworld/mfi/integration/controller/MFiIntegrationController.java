@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.capitaworld.api.common.lib.ecryption.AESEncryptionUtilitySBI;
 import com.capitaworld.api.common.lib.model.common.AuthRequest;
+import com.capitaworld.api.common.lib.model.common.GenerateTokenRequest;
 import com.capitaworld.api.common.lib.model.reverse_api.sanction_disbursed.RequiredDetailRequest;
 import com.capitaworld.api.common.lib.utils.MultipleJSONObjectHelper;
 import com.capitaworld.mfi.integration.api.api_url_and_constants.CommonConstants;
@@ -39,8 +40,8 @@ import com.capitaworld.mfi.integration.service.oneform.OneFormService;
 import com.capitaworld.mfi.integration.service.token.TokenService;
 import com.capitaworld.mfi.integration.utils.CommonUtils;
 
+
 @RestController
-@RequestMapping(consumes = MediaType.TEXT_PLAIN_VALUE)
 public class MFiIntegrationController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MFiIntegrationController.class);
@@ -58,29 +59,21 @@ public class MFiIntegrationController {
 	private AuditComponent auditComponent;
 
 	private static final String TOKEN = "token";
-
 	private static final String TOKEN_IS_NULL = "Token is null";
 
+	public static final String CURRENT_API_VERSION = CommonConstants.CURRENT_API_VERSION;
+
 	private static final String TOKEN_EXPIRED = "Token is Expired";
-
 	private static final String APPLICATION_EMPTY_MSG = "ApplicationId is null or empty ";
-
 	private static final String UNAUTHORIZED = "Invalid bank username and password";
-
 	private static final String EMPTY_DATA_FOUND = "Empty Data Found !!";
-
 	private static final String EXCEPTION = "Error while Descrypt or Converting String to Object MSG ==> {} ";
-
-	@Value("${capitaworld.mfi.integration.username}")
-	private String usertName;
-
-	@Value("${capitaworld.mfi.integration.password}")
-	private String password;
-
-	@Autowired
-	private AuditLogDetailService auditLogDetailService;
-
 	private static final String REQUIRED_DETAIL_REQ_HEADER_KEY = "requiredDetailRequest";
+
+	@Value("${capitaworld.mfi.integration.username}") private String usertName;
+	@Value("${capitaworld.mfi.integration.password}") private String password;
+
+	@Autowired private AuditLogDetailService auditLogDetailService;
 
 	@GetMapping(value = MFIApiBaseUrl.PING)
 	public String getPing() {
@@ -179,12 +172,102 @@ public class MFiIntegrationController {
 
 			return CommonConstants.CURRENT_API_VERSION + reason;
 		} finally {
-			auditComponent.updateAudit(encryptedString, AuditComponent.PRELIM_INFO, applicationId, -1L, reason,
-					isSuccess);
+			auditComponent.updateAudit(encryptedString, AuditComponent.SAVE_ONE_FORM_DETAILS, applicationId, -1L, reason, isSuccess);
+		}
+	}
+	
+	@PostMapping(value = MFIApiBaseUrl.GET_TOKEN, produces = MediaType.TEXT_PLAIN_VALUE)
+	public String getToken(@RequestBody String encryptedString , HttpServletResponse httpServletResponse) {
+		GenerateTokenRequest  generateTokenRequest = null;
+		String reason=null;
+		Boolean isSuccess = false;
+		Long applicationId= null;
+		String decrypt =null;
+		try {
+
+			try {
+				decrypt = AESEncryptionUtilitySBI.decrypt(encryptedString);
+				
+				generateTokenRequest = MultipleJSONObjectHelper.getObjectFromString(decrypt, GenerateTokenRequest .class);
+			} catch (Exception e) {
+				
+				String exp = MultipleJSONObjectHelper.getStackTrace(e);
+				logger.error("GenerateTokenRequest, Error while Decrypt or Converting String to Object in getToken MSG ==> {} " , e);
+				reason = "MSG=> GenerateTokenRequest , Error while Decrypt or Converting String to Object in getToken() {} ====>  msg "+exp;
+				return reason;
+			}
+			if(generateTokenRequest == null ||  !usertName.equals(generateTokenRequest.getUserName()) || !password.equals(generateTokenRequest.getPassword())) {
+				return CURRENT_API_VERSION + UNAUTHORIZED;
+			}
+			applicationId = generateTokenRequest.getApplicationId();
+			if (!CommonUtils.isEmpty(applicationId)) {
+				String token = tokenService.getToken(generateTokenRequest);
+				httpServletResponse.setHeader("is_valid_token", "true");
+				isSuccess = true;
+				return token;
+			} else {
+				reason="MSG=> ApplicationId must not be null in getToken() {} ====> ";
+				return reason;
+			}
+//		} catch (MFIIntegrationException  e) {
+//			reason = MultipleJSONObjectHelper.getStackTrace(e);
+//			throw e;
+		} catch (Exception e) {
+			String exp = MultipleJSONObjectHelper.getStackTrace(e);
+			logger.info("Error===> MSG==> {} ",e);
+			reason = "MSG=> Exception while token Generation  in getToken() {} ====> MSg  "+exp ;
+			return   reason;
+			
+		}finally {
+			auditComponent.updateAudit( encryptedString , AuditComponent.GENERATING_TOKEN, applicationId, -1L, reason, isSuccess);
 		}
 	}
 
-	public <T extends AuthRequest> T verifyToken(HttpServletRequest httpServletRequest, String encryptedRequestBody,
+	
+	@PostMapping(value = MFIApiBaseUrl.SET_TOKEN_AS_EXPIRED, produces = MediaType.TEXT_PLAIN_VALUE)
+	public String setTokenAsExpired(@RequestBody String encryptedString , HttpServletRequest httpServletRequest) {
+		GenerateTokenRequest  generateTokenRequest = null;
+		String reason=null;
+		Boolean isSuccess = false;
+		Long applicationId= null;
+		/**String decrypt =null;*/
+		try {
+			generateTokenRequest = verifyToken(httpServletRequest, encryptedString, GenerateTokenRequest.class);
+			/**try {
+				decrypt = AESEncryptionUtilitySBI.decrypt(encryptedString);
+				
+				generateTokenRequest = MultipleJSONObjectHelper.getObjectFromString(decrypt, GenerateTokenRequest .class);
+			} catch (Exception e) {
+				String exp = MultipleJSONObjectHelper.getStackTrace(e);
+				logger.error("GenerateTokenRequest, Error while Decrypt or Converting String to Object in setTokenAsExpired() MSG ==> {} " , e);
+				reason = "GenerateTokenRequest , Error while Decrypt or Converting String to Object in setTokenAsExpired() {} ====>  msg ==>"+exp;
+				return reason;
+			}*/
+			applicationId = generateTokenRequest.getApplicationId() ;
+			if (!CommonUtils.isEmpty(applicationId)) {
+				isSuccess = tokenService.setTokenAsExpired(generateTokenRequest);
+				return isSuccess.toString();
+			} else {
+				reason="ApplicationId must not be null in setTokenAsExpired() {} ====> ";
+				return reason;
+			}
+			/*
+			 * } catch (SidbiIntegrationException e) { reason =
+			 * MultipleJSONObjectHelper.getStackTrace(e); throw e;
+			 */
+		} catch (Exception e) {
+			String exp = MultipleJSONObjectHelper.getStackTrace(e);
+			logger.info("Error===> MSG ==>{} ",e);
+			reason = "Exception while token Generation  in setTokenAsExpired() {} ====> MSg  "+exp ;
+			return   reason;
+			
+		}finally {
+			auditComponent.updateAudit( encryptedString , AuditComponent.TOKEN_AS_EXPIRED, applicationId, -1L, reason, isSuccess);
+		}
+	}
+	
+	//=======================================================================================================
+	private <T extends AuthRequest> T verifyToken(HttpServletRequest httpServletRequest, String encryptedRequestBody,
 			Class<T> respClazz) throws MFIIntegrationException {
 
 		if (encryptedRequestBody == null) {
