@@ -17,12 +17,12 @@ public interface TokenRepository extends JpaRepository<TokenDetail, Long> {
 
 	@Transactional(noRollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	@Modifying
-	@Query("UPDATE TokenDetail td SET td.isExpired = true , td.isActive = false , td.modifiedDate = SYSDATE WHERE td.applicationId =:applicationId AND td.isActive = true ")
+	@Query("UPDATE TokenDetail td SET td.isExpired = true , td.isActive = false , td.modifiedDate = SYSDATE() WHERE td.applicationId =:applicationId AND td.isActive = true ")
 	public void inActive(@Param("applicationId") Long applicationId);
 
 	@Transactional(noRollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	@Modifying
-	@Query("UPDATE TokenDetail td SET td.isExpired = true , td.isActive = false ,  td.modifiedDate = SYSDATE  WHERE td.token =:token  AND  td.isActive = true  ") // AND
+	@Query("UPDATE TokenDetail td SET td.isExpired = true , td.isActive = false ,  td.modifiedDate = SYSDATE() WHERE td.token =:token  AND  td.isActive = true  ") // AND
 																																									// isActive
 																																									// =
 																																									// false

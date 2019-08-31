@@ -295,9 +295,9 @@ public class MFiIntegrationController {
 		if (applicationId == null) {
 			throw new MFIIntegrationException(CommonConstants.CURRENT_API_VERSION + APPLICATION_EMPTY_MSG);
 		}
-		if (!usertName.equals(retObj.getUserName()) || !password.equals(retObj.getPassword())) {
-			throw new MFIIntegrationException(CommonConstants.CURRENT_API_VERSION + UNAUTHORIZED);
-		}
+//		if (!usertName.equals(retObj.getUserName()) || !password.equals(retObj.getPassword())) {
+//			throw new MFIIntegrationException(CommonConstants.CURRENT_API_VERSION + UNAUTHORIZED);
+//		}
 		if (tokenService.checkTokenExpiration(tokenString, applicationId) == null) {
 			MFIIntegrationException ex = new MFIIntegrationException(
 					CommonConstants.CURRENT_API_VERSION + TOKEN_EXPIRED);
