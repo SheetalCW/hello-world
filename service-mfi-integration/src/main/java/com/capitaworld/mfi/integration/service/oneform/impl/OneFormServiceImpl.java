@@ -63,8 +63,7 @@ public class OneFormServiceImpl implements OneFormService {
 		saveApplicantDetails(applicantDetailsRequest, applicationId);
 		saveCoApplicantDetails(coApplicantDetailsRequestList, applicationId);
 		
-		// TODO Auto-generated method stub
-		return null;
+		return true;
 	}
 
 

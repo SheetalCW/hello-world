@@ -12,6 +12,8 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.ObjectUtils;
 
@@ -22,6 +24,7 @@ import com.capitaworld.mfi.integration.domain.oneform.Auditor;
  *
  */
 public class CommonUtils {
+	private static final Logger logger = LoggerFactory.getLogger(CommonUtils.class);
 	
 	//Singleton
 	private static final CommonUtils instance = new CommonUtils();
@@ -29,6 +32,7 @@ public class CommonUtils {
 		return instance;
 	}
 	private CommonUtils(){};
+
 
 	/**
 	 * copy field data from source to target
@@ -63,8 +67,9 @@ public class CommonUtils {
 
 						Method sourceGetter = sourceGetters.get(getterMethodName);
 						if (sourceGetter == null || !sourceGetter.getReturnType().equals(m.getParameterTypes()[0])) {
-							System.err.println("Getter does not found '" + getterMethodName + "()' in source class "
-									+ source.getClass());
+							Class<? extends Object> sourceClass = source.getClass();
+							Class<? extends Object> targetClass = target.getClass();
+							logger.debug("Getter does not found '" + getterMethodName + "()' in source class " + sourceClass);
 						} /*
 							 * else { try { m.invoke(target, sourceGetter.invoke(source)); } catch
 							 * (IllegalAccessException | IllegalArgumentException |
