@@ -1,11 +1,11 @@
 package com.capitaworld.mfi.integration.client;
-
-/**
+/*
+*//**
  * @author dharmendra.chudasama
  * @deprecated after added in service module
- */
+ *//*
 public class MFIIntegrationClient {
-	/*
+	
 	 * 
 	 * private String integrationBaseUrl; private RestTemplate restTemplate;
 	 * 
@@ -16,8 +16,8 @@ public class MFIIntegrationClient {
 		 * @param restTemplate
 		 * @param integrationBaseUrl
 		 * @author dharmendra.chudasama
-		 */
-	/*
+		 *//*
+	
 	 * public MFIIntegrationClient(RestTemplate restTemplate, String
 	 * integrationBaseUrl) { this.restTemplate = restTemplate;
 	 * this.integrationBaseUrl = integrationBaseUrl; }
@@ -92,4 +92,5 @@ public class MFIIntegrationClient {
 	 * MultipleJSONObjectHelper.getEncryptedStringfromObject(request, langCode);
 	 * 
 	 * return new HttpEntity<>(request, headers); }
-	 */}
+	 }
+*/
