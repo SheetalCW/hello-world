@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "applicant_current_financial_arrangements_details")
+@Table(name = "applicant_curr_financial_arrangement_dtls")
 public class MFiCurrentFinancialArrangementsDetails extends Auditor {
 
 	private static final long serialVersionUID = 1L;
