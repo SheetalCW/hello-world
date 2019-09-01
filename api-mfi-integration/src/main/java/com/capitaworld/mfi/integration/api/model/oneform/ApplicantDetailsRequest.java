@@ -23,9 +23,9 @@ public class ApplicantDetailsRequest implements Serializable {
 
 	private Integer maritalStatus;
 
-	private String addressProofImg;
+	private byte[] addressProofImg;
 
-	private String profileImg;
+	private byte[] profileImg;
 
 	private String aadharPincode;
 
@@ -159,8 +159,7 @@ public class ApplicantDetailsRequest implements Serializable {
 	
 	private Integer competition;
 	
-	private Integer consentFormImg;
-	
+	private byte[] consentFormImg;
 	
 	private Double loanAmountRecomandation;
 	
@@ -220,16 +219,16 @@ public class ApplicantDetailsRequest implements Serializable {
 	public void setMaritalStatus(Integer maritalStatus) {
 		this.maritalStatus = maritalStatus;
 	}
-	public String getAddressProofImg() {
+	public byte[] getAddressProofImg() {
 		return addressProofImg;
 	}
-	public void setAddressProofImg(String addressProofImg) {
+	public void setAddressProofImg(byte[] addressProofImg) {
 		this.addressProofImg = addressProofImg;
 	}
-	public String getProfileImg() {
+	public byte[] getProfileImg() {
 		return profileImg;
 	}
-	public void setProfileImg(String profileImg) {
+	public void setProfileImg(byte[] profileImg) {
 		this.profileImg = profileImg;
 	}
 	public String getAadharPincode() {
@@ -628,10 +627,10 @@ public class ApplicantDetailsRequest implements Serializable {
 	public void setCompetition(Integer competition) {
 		this.competition = competition;
 	}
-	public Integer getConsentFormImg() {
+	public byte[] getConsentFormImg() {
 		return consentFormImg;
 	}
-	public void setConsentFormImg(Integer consentFormImg) {
+	public void setConsentFormImg(byte[] consentFormImg) {
 		this.consentFormImg = consentFormImg;
 	}
 	public Double getLoanAmountRecomandation() {

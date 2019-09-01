@@ -9,12 +9,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class LoanMasterRequest extends AuditorRequest implements Serializable, AuthRequest {
 	private static final long serialVersionUID = 1L;
-	private String userName;
 
-	private String password;
-	
 	private Long id;
 
+	private Long applicationId;
+	private String userName;
+	private String password;
+	
 	private String fpProductName;
 
 	private Long fpProductId;
@@ -24,8 +25,6 @@ public class LoanMasterRequest extends AuditorRequest implements Serializable, A
 	private String branchName;
 
 	private String applicationCode;
-
-	private Long applicationId;
 
 	private Date applicationDate;
 
@@ -44,7 +43,6 @@ public class LoanMasterRequest extends AuditorRequest implements Serializable, A
 	private String config;
 
 	private Long proposalId;
-	
 	
 
 	public void setUserName(String userName) {
@@ -191,8 +189,5 @@ public class LoanMasterRequest extends AuditorRequest implements Serializable, A
 		return password;
 	}
 
-	
-	
-	
 
 }

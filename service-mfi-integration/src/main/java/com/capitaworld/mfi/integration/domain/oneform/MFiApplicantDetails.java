@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -47,11 +48,13 @@ public class MFiApplicantDetails extends Auditor {
 	@Column(name = "marital_status")
 	private Integer maritalStatus;
 
+	@Lob
 	@Column(name = "addressProofImg")
-	private String addressProofImg;
+	private byte[] addressProofImg;
 
+	@Lob
 	@Column(name = "profileImg")
-	private String profileImg;
+	private  byte[] profileImg;
 
 	@Column(name = "aadhar_pincode")
 	private String aadharPincode;
@@ -245,8 +248,9 @@ public class MFiApplicantDetails extends Auditor {
 	@Column(name = "competition")
 	private Integer competition;
 
+	@Lob
 	@Column(name = "consent_form_img")
-	private Integer consentFormImg;
+	private byte[] consentFormImg;
 
 	@Column(name = "loan_amount_recomandation")
 	private Double loanAmountRecomandation;
@@ -352,19 +356,19 @@ public class MFiApplicantDetails extends Auditor {
 		this.maritalStatus = maritalStatus;
 	}
 
-	public String getAddressProofImg() {
+	public byte[] getAddressProofImg() {
 		return addressProofImg;
 	}
 
-	public void setAddressProofImg(String addressProofImg) {
+	public void setAddressProofImg(byte[] addressProofImg) {
 		this.addressProofImg = addressProofImg;
 	}
 
-	public String getProfileImg() {
+	public byte[] getProfileImg() {
 		return profileImg;
 	}
 
-	public void setProfileImg(String profileImg) {
+	public void setProfileImg(byte[] profileImg) {
 		this.profileImg = profileImg;
 	}
 
@@ -896,11 +900,11 @@ public class MFiApplicantDetails extends Auditor {
 		this.competition = competition;
 	}
 
-	public Integer getConsentFormImg() {
+	public byte[] getConsentFormImg() {
 		return consentFormImg;
 	}
 
-	public void setConsentFormImg(Integer consentFormImg) {
+	public void setConsentFormImg(byte[] consentFormImg) {
 		this.consentFormImg = consentFormImg;
 	}
 
