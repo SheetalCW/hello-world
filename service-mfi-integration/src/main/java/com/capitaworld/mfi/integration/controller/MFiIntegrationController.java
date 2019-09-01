@@ -267,8 +267,7 @@ public class MFiIntegrationController {
 	}
 	
 	//=======================================================================================================
-	private <T extends AuthRequest> T verifyToken(HttpServletRequest httpServletRequest, String encryptedRequestBody,
-			Class<T> respClazz) throws MFIIntegrationException {
+	private <T extends AuthRequest> T verifyToken(HttpServletRequest httpServletRequest, String encryptedRequestBody, Class<T> respClazz) {
 
 		if (encryptedRequestBody == null) {
 			throw new MFIIntegrationException(CommonConstants.CURRENT_API_VERSION + EMPTY_DATA_FOUND);

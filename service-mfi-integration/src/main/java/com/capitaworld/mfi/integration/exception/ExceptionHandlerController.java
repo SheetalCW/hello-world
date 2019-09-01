@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.capitaworld.mfi.integration.utils.CommonUtils;
+
 /**
  * Handle exceptions globally
  * 
@@ -24,13 +26,15 @@ public class ExceptionHandlerController {
 		HttpStatus httpStatus = ex.getHttpStatus();
 		if (httpStatus == null)
 			httpStatus = HttpStatus.OK;
-		return new ResponseEntity<>(ex.getMessage(), httpStatus);
+		return new ResponseEntity<>(CommonUtils.stackTrace(ex), httpStatus);
+//		return new ResponseEntity<>(ex.getMessage(), httpStatus);
 	}
 
 	@ExceptionHandler(value = Exception.class)
 	public String handleException(Exception ex) {
 		logger.error("Error occured", ex);
-		return ex.getClass().getSimpleName() + ": " + ex.getMessage();
+		return CommonUtils.stackTrace(ex);
+//		return ex.getClass().getSimpleName() + ": " + ex.getMessage();
 	}
 
 }

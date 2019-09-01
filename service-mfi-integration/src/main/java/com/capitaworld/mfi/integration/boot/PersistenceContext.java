@@ -33,7 +33,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = "com.capitaworld.mfi.integration.repository", entityManagerFactoryRef = "userDataStoreEM", transactionManagerRef = "userDataStoreTM")
+@EnableJpaRepositories(basePackages = "com.capitaworld.mfi.integration.repository", entityManagerFactoryRef = "dataSourceEM", transactionManagerRef = "dataSourceTM")
 public class PersistenceContext {
 
 	private final Logger log = LoggerFactory.getLogger(PersistenceContext.class);
@@ -64,7 +64,7 @@ public class PersistenceContext {
 	@Autowired
 	private DataSourceProperties dataSourceProperties;
 
-	@Bean(name = "userDataStore")
+	@Bean(name = "dataSource")
 	@Primary
 	public DataSource dataSource() {
 		log.info("Initiate retailDataStore instance");
@@ -126,19 +126,19 @@ public class PersistenceContext {
 		}
 	}
 
-	@Bean(name = "userDataStoreTM")
+	@Bean(name = "dataSourceTM")
 	@Primary
 	public JpaTransactionManager transactionManager() {
-		log.info("Initiate userDataStoreTM instance");
+		log.info("Initiate dataSourceTM instance");
 		JpaTransactionManager transactionManager = new JpaTransactionManager();
 
 		transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
-		log.info("userDataStoreTM instance created");
+		log.info("dataSourceTM instance created");
 		return transactionManager;
 	}
 
-	@Bean(name = "userDataStoreEM")
-	@DependsOn("userDataStore")
+	@Bean(name = "dataSourceEM")
+	@DependsOn("dataSource")
 	@Primary
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();

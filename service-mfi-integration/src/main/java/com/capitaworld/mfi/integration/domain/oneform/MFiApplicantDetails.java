@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -48,13 +47,17 @@ public class MFiApplicantDetails extends Auditor {
 	@Column(name = "marital_status")
 	private Integer maritalStatus;
 
-	@Lob
-	@Column(name = "addressProofImg")
-	private byte[] addressProofImg;
+	/** ref of DocumentDetails.cwDocId */
+	@Column(name = "address_proof_img_1")
+	private Long addressProofImg1;
+	
+	/** ref of DocumentDetails.cwDocId */
+	@Column(name = "address_proof_img_2")
+	private Long addressProofImg2;
 
-	@Lob
+	/** ref of DocumentDetails.cwDocId */
 	@Column(name = "profileImg")
-	private  byte[] profileImg;
+	private Long profileImg;
 
 	@Column(name = "aadhar_pincode")
 	private String aadharPincode;
@@ -248,9 +251,13 @@ public class MFiApplicantDetails extends Auditor {
 	@Column(name = "competition")
 	private Integer competition;
 
-	@Lob
-	@Column(name = "consent_form_img")
-	private byte[] consentFormImg;
+	/** ref of DocumentDetails.cwDocId */
+	@Column(name = "consent_form_img_1")
+	private Long consentFormImg1;
+	
+	/** ref of DocumentDetails.cwDocId */
+	@Column(name = "consent_form_img_2")
+	private Long consentFormImg2;
 
 	@Column(name = "loan_amount_recomandation")
 	private Double loanAmountRecomandation;
@@ -356,19 +363,28 @@ public class MFiApplicantDetails extends Auditor {
 		this.maritalStatus = maritalStatus;
 	}
 
-	public byte[] getAddressProofImg() {
-		return addressProofImg;
+
+	public Long getAddressProofImg1() {
+		return addressProofImg1;
 	}
 
-	public void setAddressProofImg(byte[] addressProofImg) {
-		this.addressProofImg = addressProofImg;
+	public void setAddressProofImg1(Long addressProofImg1) {
+		this.addressProofImg1 = addressProofImg1;
 	}
 
-	public byte[] getProfileImg() {
+	public Long getAddressProofImg2() {
+		return addressProofImg2;
+	}
+
+	public void setAddressProofImg2(Long addressProofImg2) {
+		this.addressProofImg2 = addressProofImg2;
+	}
+
+	public Long getProfileImg() {
 		return profileImg;
 	}
 
-	public void setProfileImg(byte[] profileImg) {
+	public void setProfileImg(Long profileImg) {
 		this.profileImg = profileImg;
 	}
 
@@ -900,12 +916,21 @@ public class MFiApplicantDetails extends Auditor {
 		this.competition = competition;
 	}
 
-	public byte[] getConsentFormImg() {
-		return consentFormImg;
+
+	public Long getConsentFormImg1() {
+		return consentFormImg1;
 	}
 
-	public void setConsentFormImg(byte[] consentFormImg) {
-		this.consentFormImg = consentFormImg;
+	public void setConsentFormImg1(Long consentFormImg1) {
+		this.consentFormImg1 = consentFormImg1;
+	}
+
+	public Long getConsentFormImg2() {
+		return consentFormImg2;
+	}
+
+	public void setConsentFormImg2(Long consentFormImg2) {
+		this.consentFormImg2 = consentFormImg2;
 	}
 
 	public Double getLoanAmountRecomandation() {

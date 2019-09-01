@@ -1,7 +1,7 @@
 package com.capitaworld.mfi.integration.service.oneform.impl;
 
-import java.util.Date;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,15 +12,18 @@ import com.capitaworld.mfi.integration.api.model.oneform.ApplicantDetailsRequest
 import com.capitaworld.mfi.integration.api.model.oneform.AssetsDetailsRequest;
 import com.capitaworld.mfi.integration.api.model.oneform.BankDetailsRequest;
 import com.capitaworld.mfi.integration.api.model.oneform.CurrentFinancialArrangementsDetailsRequest;
+import com.capitaworld.mfi.integration.api.model.oneform.DocumentDetailRequest;
 import com.capitaworld.mfi.integration.api.model.oneform.ExpenseExpectedIncomeDetailsRequest;
 import com.capitaworld.mfi.integration.api.model.oneform.IncomeDetailsRequest;
 import com.capitaworld.mfi.integration.api.model.oneform.OneFormRequest;
+import com.capitaworld.mfi.integration.domain.oneform.DocumentDetail;
 import com.capitaworld.mfi.integration.domain.oneform.MFiApplicantDetails;
 import com.capitaworld.mfi.integration.domain.oneform.MFiAssetsDetails;
 import com.capitaworld.mfi.integration.domain.oneform.MFiBankDetails;
 import com.capitaworld.mfi.integration.domain.oneform.MFiCurrentFinancialArrangementsDetails;
 import com.capitaworld.mfi.integration.domain.oneform.MFiExpenseExpectedIncomeDetails;
 import com.capitaworld.mfi.integration.domain.oneform.MFiIncomeDetails;
+import com.capitaworld.mfi.integration.repository.oneform.DocumentDetailRepository;
 import com.capitaworld.mfi.integration.repository.oneform.MFiApplicantDetailsRepository;
 import com.capitaworld.mfi.integration.repository.oneform.MFiAssetsDetailsRepository;
 import com.capitaworld.mfi.integration.repository.oneform.MFiBankDetailsRepository;
@@ -40,6 +43,9 @@ public class OneFormServiceImpl implements OneFormService {
 	
 	@Autowired 
 	private MFiBankDetailsRepository mfiBankDetailsRepository;
+
+	@Autowired
+	private DocumentDetailRepository documentDetailRepository;
 	
 	@Autowired 
 	private MFiAssetsDetailsRepository mfiAssetsDetailsRepository;
@@ -63,8 +69,7 @@ public class OneFormServiceImpl implements OneFormService {
 		saveApplicantDetails(applicantDetailsRequest, applicationId);
 		saveCoApplicantDetails(coApplicantDetailsRequestList, applicationId);
 		
-		// TODO Auto-generated method stub
-		return null;
+		return true;
 	}
 
 
@@ -80,7 +85,14 @@ public class OneFormServiceImpl implements OneFormService {
 		applicantDetail = CommonUtils.setAuditDetail(applicantDetailsRequest, applicantDetail, MFiApplicantDetails::new);
 		applicantDetail.setApplicationId(applicationId);
 		applicantDetail.setIsCoApplicant(false);
+
+		saveDocumentDetails(applicantDetailsRequest.getProfileImg(), applicationId, null, applicantDetail::setProfileImg);
+		saveDocumentDetails(applicantDetailsRequest.getAddressProofImg1(), applicationId, null, applicantDetail::setAddressProofImg1);
+		saveDocumentDetails(applicantDetailsRequest.getAddressProofImg2(), applicationId, null, applicantDetail::setAddressProofImg2);
+		saveDocumentDetails(applicantDetailsRequest.getConsentFormImg1(), applicationId, null, applicantDetail::setConsentFormImg1);
+		saveDocumentDetails(applicantDetailsRequest.getConsentFormImg2(), applicationId, null, applicantDetail::setConsentFormImg2);
 		applicantDetail = mfiApplicantDetailsRepository.save(applicantDetail);
+
 		Long applicantDetailId=applicantDetail.getId();
 		logger.info("--------- saved saveApplicantDetails ------------ generated ApplicantDetailId: {}", applicantDetailId);
 		
@@ -106,6 +118,10 @@ public class OneFormServiceImpl implements OneFormService {
 			MFiApplicantDetails coApplicantDetail = CommonUtils.setAuditDetail(coApplicantDetailsRequest, null, MFiApplicantDetails::new);
 			coApplicantDetail.setApplicationId(applicationId);
 			coApplicantDetail.setIsCoApplicant(true);
+
+			saveDocumentDetails(coApplicantDetailsRequest.getProfileImg(), applicationId, null, coApplicantDetail::setProfileImg);
+			saveDocumentDetails(coApplicantDetailsRequest.getAddressProofImg1(), applicationId, null, coApplicantDetail::setAddressProofImg1);
+			saveDocumentDetails(coApplicantDetailsRequest.getAddressProofImg2(), applicationId, null, coApplicantDetail::setAddressProofImg2);
 			coApplicantDetail = mfiApplicantDetailsRepository.save(coApplicantDetail);
 			Long coApplicantDetailId=coApplicantDetail.getId();
 			logger.info("--------- saved saveCoApplicantDetails ------------ generated coApplicantDetailId: {}", coApplicantDetailId);
@@ -126,13 +142,46 @@ public class OneFormServiceImpl implements OneFormService {
 		}
 		
 		MFiBankDetails bankDetails = mfiBankDetailsRepository.findByApplicantDetailIdAndIsActiveIsTrue(applicantDetailId);
-		bankDetails = com.capitaworld.mfi.integration.utils.CommonUtils.setAuditDetail(bankDetailsRequest, bankDetails, MFiBankDetails::new);
+		bankDetails = CommonUtils.setAuditDetail(bankDetailsRequest, bankDetails, MFiBankDetails::new);
 		bankDetails.setApplicantDetailId(applicantDetailId);
 		bankDetails.setApplicationId(applicationId);
+		
+		saveDocumentDetails(bankDetailsRequest.getPassbookImg1(), applicationId, applicantDetailId, bankDetails::setPassbookImg1);
+		saveDocumentDetails(bankDetailsRequest.getPassbookImg2(), applicationId, applicantDetailId, bankDetails::setPassbookImg2);
 		mfiBankDetailsRepository.save(bankDetails);
 		
 		logger.info("--------- save saveApplicantbankDetails ------------ ");
 		logger.info("============== Exit from  saveApplicantbankDetails ====================  ");	
+	}
+	
+	/**
+	 * @param documentDetailRequest
+	 * @param applicationId
+	 * @param applicantDetailId
+	 * @param cwDocIdConsumer (Optional) setter called iff document found and cwDocIdSetter.apply(CwDocId)
+	 */
+	private void saveDocumentDetails(DocumentDetailRequest documentDetailRequest, Long applicationId, Long applicantDetailId, Consumer<Long> cwDocIdConsumer) {
+		if(documentDetailRequest == null) {
+			logger.debug("documentDetailRequest is null for applicationId : {}, applicantDetailId : {} so ignoring", applicationId, applicantDetailId);
+			return;
+		}
+		if(documentDetailRequest.getCwDocId() == null) {
+			logger.debug("documentDetailRequest.getCwDocId() is null for applicationId : {}, applicantDetailId : {} so ignoring", applicationId, applicantDetailId);
+			return;
+		}
+		
+		DocumentDetail documentDetail = documentDetailRepository.findByCwDocIdAndIsActiveIsTrue(documentDetailRequest.getCwDocId());
+		documentDetail = CommonUtils.setAuditDetail(documentDetailRequest, documentDetail, DocumentDetail::new);
+//			documentDetail.setDocumentType(DocumentDetail.DocType.PASSBOOK_IMG_1);
+		documentDetail.setApplicationId(applicationId);
+		documentDetail.setCwDocId(documentDetailRequest.getCwDocId());
+		documentDetail.setDocumentData(documentDetailRequest.getDocumentData());
+		documentDetailRepository.save(documentDetail);
+		
+		if(cwDocIdConsumer != null)
+			cwDocIdConsumer.accept(documentDetailRequest.getCwDocId());
+
+		logger.info("--------- saved documentDetail ------------ ");
 	}
 	
 	private void saveExpenseExpectedDetails(ExpenseExpectedIncomeDetailsRequest expenseExpectedDetailsRequest, Long applicationId, Long applicantDetailId) {
@@ -140,7 +189,7 @@ public class OneFormServiceImpl implements OneFormService {
 			logger.debug("expenseExpectedDetailsRequest is null for applicationId : {}, applicantDetailId : {} so ignoring", applicationId, applicantDetailId);
 			return;
 		}
-
+		
 		MFiExpenseExpectedIncomeDetails expenseExpectedDetails = mfiExpenseExpectedIncomeDetailsRepository.findByApplicantDetailIdAndIsActiveIsTrue(applicantDetailId);
 		expenseExpectedDetails = CommonUtils.setAuditDetail(expenseExpectedDetailsRequest, expenseExpectedDetails, MFiExpenseExpectedIncomeDetails::new);
 		expenseExpectedDetails.setApplicantDetailId(applicantDetailId);

@@ -40,8 +40,13 @@ public class MFiBankDetails extends Auditor {
 	@Column(name = "ifsc_code")
 	private String ifscCode;
 
-	@Column(name = "passbook_img")
-	private String passbookImg;
+	/** ref of docDetails.cwDocId */
+	@Column(name = "passbook_img_1")
+	private Long passbookImg1;
+	
+	/** ref of docDetails.cwDocId */
+	@Column(name = "passbook_img_2")
+	private Long passbookImg2;
 
 	public Long getId() {
 		return id;
@@ -51,8 +56,6 @@ public class MFiBankDetails extends Auditor {
 		this.id = id;
 	}
 	
-	
-
 	public Long getApplicantDetailId() {
 		return applicantDetailId;
 	}
@@ -117,11 +120,20 @@ public class MFiBankDetails extends Auditor {
 		this.ifscCode = ifscCode;
 	}
 
-	public String getPassbookImg() {
-		return passbookImg;
+	public Long getPassbookImg1() {
+		return passbookImg1;
 	}
 
-	public void setPassbookImg(String passbookImg) {
-		this.passbookImg = passbookImg;
+	public void setPassbookImg1(Long passbookImg1) {
+		this.passbookImg1 = passbookImg1;
 	}
+
+	public Long getPassbookImg2() {
+		return passbookImg2;
+	}
+
+	public void setPassbookImg2(Long passbookImg2) {
+		this.passbookImg2 = passbookImg2;
+	}
+
 }

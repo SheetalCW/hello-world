@@ -13,7 +13,8 @@ public class BankDetailsRequest implements Serializable {
 	private String accountHolderName;
 	private String accountType;
 	private String ifscCode;
-	private String passbookImg;
+	private DocumentDetailRequest passbookImg1;
+	private DocumentDetailRequest passbookImg2;
 
 	public String getBankName() {
 		return bankName;
@@ -63,12 +64,20 @@ public class BankDetailsRequest implements Serializable {
 		this.ifscCode = ifscCode;
 	}
 
-	public String getPassbookImg() {
-		return passbookImg;
+	public DocumentDetailRequest getPassbookImg1() {
+		return passbookImg1;
 	}
 
-	public void setPassbookImg(String passbookImg) {
-		this.passbookImg = passbookImg;
+	public void setPassbookImg1(DocumentDetailRequest passbookImg1) {
+		this.passbookImg1 = passbookImg1;
+	}
+
+	public DocumentDetailRequest getPassbookImg2() {
+		return passbookImg2;
+	}
+
+	public void setPassbookImg2(DocumentDetailRequest passbookImg2) {
+		this.passbookImg2 = passbookImg2;
 	}
 
 }

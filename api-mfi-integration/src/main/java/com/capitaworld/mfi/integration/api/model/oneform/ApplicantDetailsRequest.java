@@ -23,9 +23,10 @@ public class ApplicantDetailsRequest implements Serializable {
 
 	private Integer maritalStatus;
 
-	private byte[] addressProofImg;
+	private DocumentDetailRequest addressProofImg1;
+	private DocumentDetailRequest addressProofImg2;
 
-	private byte[] profileImg;
+	private DocumentDetailRequest profileImg;
 
 	private String aadharPincode;
 
@@ -159,7 +160,8 @@ public class ApplicantDetailsRequest implements Serializable {
 	
 	private Integer competition;
 	
-	private byte[] consentFormImg;
+	private DocumentDetailRequest consentFormImg1;
+	private DocumentDetailRequest consentFormImg2;
 	
 	private Double loanAmountRecomandation;
 	
@@ -219,16 +221,22 @@ public class ApplicantDetailsRequest implements Serializable {
 	public void setMaritalStatus(Integer maritalStatus) {
 		this.maritalStatus = maritalStatus;
 	}
-	public byte[] getAddressProofImg() {
-		return addressProofImg;
+	public DocumentDetailRequest getAddressProofImg1() {
+		return addressProofImg1;
 	}
-	public void setAddressProofImg(byte[] addressProofImg) {
-		this.addressProofImg = addressProofImg;
+	public void setAddressProofImg1(DocumentDetailRequest addressProofImg1) {
+		this.addressProofImg1 = addressProofImg1;
 	}
-	public byte[] getProfileImg() {
+	public DocumentDetailRequest getAddressProofImg2() {
+		return addressProofImg2;
+	}
+	public void setAddressProofImg2(DocumentDetailRequest addressProofImg2) {
+		this.addressProofImg2 = addressProofImg2;
+	}
+	public DocumentDetailRequest getProfileImg() {
 		return profileImg;
 	}
-	public void setProfileImg(byte[] profileImg) {
+	public void setProfileImg(DocumentDetailRequest profileImg) {
 		this.profileImg = profileImg;
 	}
 	public String getAadharPincode() {
@@ -627,11 +635,17 @@ public class ApplicantDetailsRequest implements Serializable {
 	public void setCompetition(Integer competition) {
 		this.competition = competition;
 	}
-	public byte[] getConsentFormImg() {
-		return consentFormImg;
+	public DocumentDetailRequest getConsentFormImg1() {
+		return consentFormImg1;
 	}
-	public void setConsentFormImg(byte[] consentFormImg) {
-		this.consentFormImg = consentFormImg;
+	public void setConsentFormImg1(DocumentDetailRequest consentFormImg1) {
+		this.consentFormImg1 = consentFormImg1;
+	}
+	public DocumentDetailRequest getConsentFormImg2() {
+		return consentFormImg2;
+	}
+	public void setConsentFormImg2(DocumentDetailRequest consentFormImg2) {
+		this.consentFormImg2 = consentFormImg2;
 	}
 	public Double getLoanAmountRecomandation() {
 		return loanAmountRecomandation;
