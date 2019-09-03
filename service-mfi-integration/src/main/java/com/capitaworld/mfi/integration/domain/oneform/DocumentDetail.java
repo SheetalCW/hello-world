@@ -29,9 +29,15 @@ public class DocumentDetail extends Auditor {
 	@Column(name = "application_Id")
 	private Long applicationId;
 	
-	/** Which type of document */
-	@Column(name = "document_type")
-	private Integer documentType;
+	@Column(name = "ref_Id")
+	private Long refId;
+	
+	@Column(name = "table_Name")
+	private String tableName;
+	
+	/** Which type of document, refer from ENUM */
+	@Column(name = "document_type_id")
+	private Integer documentTypeId;
 
 	@Column(name = "cw_doc_id")
 	private Long cwDocId;
@@ -47,6 +53,15 @@ public class DocumentDetail extends Auditor {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+
+	public String getTableName() {
+		return tableName;
+	}
+
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
+	}
 
 	public Long getApplicationId() {
 		return applicationId;
@@ -56,12 +71,13 @@ public class DocumentDetail extends Auditor {
 		this.applicationId = applicationId;
 	}
 
-	public Integer getDocumentType() {
-		return documentType;
+
+	public Integer getDocumentTypeId() {
+		return documentTypeId;
 	}
 
-	public void setDocumentType(Integer documentType) {
-		this.documentType = documentType;
+	public void setDocumentTypeId(Integer documentTypeId) {
+		this.documentTypeId = documentTypeId;
 	}
 
 	public Long getCwDocId() {
@@ -78,6 +94,14 @@ public class DocumentDetail extends Auditor {
 
 	public void setDocumentData(byte[] documentData) {
 		this.documentData = documentData;
+	}
+
+	public Long getRefId() {
+		return refId;
+	}
+
+	public void setRefId(Long refId) {
+		this.refId = refId;
 	}
 	
 }

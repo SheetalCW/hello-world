@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import com.capitaworld.mfi.integration.domain.common.Auditor;
 
 @Entity
-@Table(name = "applicant_curr_financial_arrangement_dtls")
+@Table(name = "applicant_curr_fin_arrng_details")
 public class MFiCurrentFinancialArrangementsDetails extends Auditor {
 
 	private static final long serialVersionUID = 1L;

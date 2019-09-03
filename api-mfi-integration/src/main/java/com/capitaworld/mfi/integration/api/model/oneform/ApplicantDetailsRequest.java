@@ -175,7 +175,6 @@ public class ApplicantDetailsRequest implements Serializable {
 
 	private BankDetailsRequest bankDetails;
 	private List<CurrentFinancialArrangementsDetailsRequest> currFinArrangementsDetailList;
-	private ExpenseExpectedIncomeDetailsRequest expenseExpectedIncomeDetails;
 
 	private List<IncomeDetailsRequest> incomeDetailsList;
 	private List<AssetsDetailsRequest> assetsDetailsList;
@@ -221,18 +220,7 @@ public class ApplicantDetailsRequest implements Serializable {
 	public void setMaritalStatus(Integer maritalStatus) {
 		this.maritalStatus = maritalStatus;
 	}
-	public DocumentDetailRequest getAddressProofImg1() {
-		return addressProofImg1;
-	}
-	public void setAddressProofImg1(DocumentDetailRequest addressProofImg1) {
-		this.addressProofImg1 = addressProofImg1;
-	}
-	public DocumentDetailRequest getAddressProofImg2() {
-		return addressProofImg2;
-	}
-	public void setAddressProofImg2(DocumentDetailRequest addressProofImg2) {
-		this.addressProofImg2 = addressProofImg2;
-	}
+	
 	public DocumentDetailRequest getProfileImg() {
 		return profileImg;
 	}
@@ -690,12 +678,6 @@ public class ApplicantDetailsRequest implements Serializable {
 			List<CurrentFinancialArrangementsDetailsRequest> currFinArrangementsDetailList) {
 		this.currFinArrangementsDetailList = currFinArrangementsDetailList;
 	}
-	public ExpenseExpectedIncomeDetailsRequest getExpenseExpectedIncomeDetails() {
-		return expenseExpectedIncomeDetails;
-	}
-	public void setExpenseExpectedIncomeDetails(ExpenseExpectedIncomeDetailsRequest expenseExpectedIncomeDetails) {
-		this.expenseExpectedIncomeDetails = expenseExpectedIncomeDetails;
-	}
 	public List<IncomeDetailsRequest> getIncomeDetailsList() {
 		return incomeDetailsList;
 	}
@@ -707,6 +689,18 @@ public class ApplicantDetailsRequest implements Serializable {
 	}
 	public void setAssetsDetailsList(List<AssetsDetailsRequest> assetsDetailsList) {
 		this.assetsDetailsList = assetsDetailsList;
+	}
+	public DocumentDetailRequest getAddressProofImg1() {
+		return addressProofImg1;
+	}
+	public void setAddressProofImg1(DocumentDetailRequest addressProofImg1) {
+		this.addressProofImg1 = addressProofImg1;
+	}
+	public DocumentDetailRequest getAddressProofImg2() {
+		return addressProofImg2;
+	}
+	public void setAddressProofImg2(DocumentDetailRequest addressProofImg2) {
+		this.addressProofImg2 = addressProofImg2;
 	}
 	
 	
