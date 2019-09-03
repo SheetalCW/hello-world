@@ -23,7 +23,7 @@ import com.capitaworld.mfi.integration.domain.common.Auditor;
 @Entity
 @Table(name = "loan_master", uniqueConstraints = @UniqueConstraint(columnNames = { "application_id" }))
 //@Inheritance(strategy = InheritanceType.JOINED)
-public class LoanMaster extends Auditor implements Serializable {
+public class MFILoanMasterDetail extends Auditor implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

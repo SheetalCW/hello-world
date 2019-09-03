@@ -7,6 +7,6 @@ import com.capitaworld.mfi.integration.domain.oneform.MFiBankDetails;
 
 public interface MFiBankDetailsRepository extends JpaRepository<MFiBankDetails, Long> {
 	
-	MFiBankDetails findByApplicantDetailIdAndIsActiveIsTrue(Long applicantDetailId);
+	public MFiBankDetails findByApplicantDetailIdAndIsActiveIsTrue(Long applicantDetailId);
 
 }

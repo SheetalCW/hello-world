@@ -22,6 +22,8 @@ public class AuditComponent {
 	public static final int TOKEN_AS_EXPIRED = 2;
 	public static final int SAVE_ONE_FORM_DETAILS = 3;
 	public static final int ELIGIBILITY = 4;
+	public static final int MATCHES_PARAMETER = 5;
+	public static final int SCORING_DETAILS=6;
 
 
 	/*

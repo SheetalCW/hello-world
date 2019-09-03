@@ -56,7 +56,7 @@ public class PersistenceContext {
 	private static final String PROPERTY_NAME_HIBERNATE_SHOW_SQL = "hibernate.show_sql";
 	private static final String PROPERTY_NAME_HIBERNATE_LAZY_LOAD = "hibernate.enable_lazy_load_no_trans";
 
-	private static final String PROPERTY_PACKAGES_TO_SCAN = "com.capitaworld.mfi.integration.domain.oneform";
+	private static final String PROPERTY_PACKAGES_TO_SCAN = "com.capitaworld.mfi.integration.domain";
 
 	@Autowired
 	private Environment environment;

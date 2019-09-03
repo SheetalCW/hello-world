@@ -1,7 +1,5 @@
 package com.capitaworld.mfi.integration.repository.oneform;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -16,7 +14,7 @@ public interface MFiApplicantDetailsRepository extends JpaRepository<MFiApplican
 	 * @param applicationId
 	 * @return applicant detail or <code>null</code> if not exists
 	 */
-	MFiApplicantDetails findByApplicationIdAndIsCoApplicantIsFalseAndIsActiveIsTrue(Long applicationId);
+	public MFiApplicantDetails findByApplicationIdAndIsCoApplicantIsFalseAndIsActiveIsTrue(Long applicationId);
 
 	@Transactional 
 	@Modifying

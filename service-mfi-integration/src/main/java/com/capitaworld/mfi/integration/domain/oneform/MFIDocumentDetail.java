@@ -19,7 +19,7 @@ import com.capitaworld.mfi.integration.domain.common.Auditor;
  */
 @Entity
 @Table(name = "doc_detail")
-public class DocumentDetail extends Auditor {
+public class MFIDocumentDetail extends Auditor {
 	private static final long serialVersionUID = 1L;
 	
 	@Id

@@ -4,6 +4,10 @@ import com.capitaworld.mfi.integration.api.model.oneform.OneFormRequest;
 
 public interface OneFormService {
 
-	Boolean saveOneFormInfo(OneFormRequest oneFormRequest);
+	/**
+	 * @param oneFormRequest
+	 * @return <code>null</code>=success, or error message
+	 */
+	String saveOneFormInfo(OneFormRequest oneFormRequest);
 
 }

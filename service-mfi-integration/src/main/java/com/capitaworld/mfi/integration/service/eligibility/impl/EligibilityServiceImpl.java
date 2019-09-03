@@ -5,9 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.capitaworld.mfi.integration.api.model.oneform.EligibilityDetailsRequest;
-import com.capitaworld.mfi.integration.domain.oneform.MFIEligibilityDetails;
-import com.capitaworld.mfi.integration.repository.oneform.MFIEligibilityDetailsRepository;
+import com.capitaworld.mfi.integration.api.model.eligibility.EligibilityDetailsRequest;
+import com.capitaworld.mfi.integration.domain.eligibility.MFIEligibilityDetails;
+import com.capitaworld.mfi.integration.repository.eligibility.MFIEligibilityDetailsRepository;
 import com.capitaworld.mfi.integration.service.eligibility.EligibilityService;
 import com.capitaworld.mfi.integration.utils.CommonUtils;
 @Service
