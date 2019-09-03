@@ -13,22 +13,22 @@ import com.capitaworld.mfi.integration.api.model.oneform.AssetsDetailsRequest;
 import com.capitaworld.mfi.integration.api.model.oneform.BankDetailsRequest;
 import com.capitaworld.mfi.integration.api.model.oneform.CurrentFinancialArrangementsDetailsRequest;
 import com.capitaworld.mfi.integration.api.model.oneform.DocumentDetailRequest;
-import com.capitaworld.mfi.integration.api.model.oneform.ExpenseExpectedIncomeDetailsRequest;
+import com.capitaworld.mfi.integration.api.model.oneform.EligibilityDetailsRequest;
 import com.capitaworld.mfi.integration.api.model.oneform.IncomeDetailsRequest;
 import com.capitaworld.mfi.integration.api.model.oneform.OneFormRequest;
 import com.capitaworld.mfi.integration.domain.oneform.DocumentDetail;
+import com.capitaworld.mfi.integration.domain.oneform.MFIEligibilityDetails;
 import com.capitaworld.mfi.integration.domain.oneform.MFiApplicantDetails;
 import com.capitaworld.mfi.integration.domain.oneform.MFiAssetsDetails;
 import com.capitaworld.mfi.integration.domain.oneform.MFiBankDetails;
 import com.capitaworld.mfi.integration.domain.oneform.MFiCurrentFinancialArrangementsDetails;
-import com.capitaworld.mfi.integration.domain.oneform.MFiExpenseExpectedIncomeDetails;
 import com.capitaworld.mfi.integration.domain.oneform.MFiIncomeDetails;
 import com.capitaworld.mfi.integration.repository.oneform.DocumentDetailRepository;
 import com.capitaworld.mfi.integration.repository.oneform.MFiApplicantDetailsRepository;
 import com.capitaworld.mfi.integration.repository.oneform.MFiAssetsDetailsRepository;
 import com.capitaworld.mfi.integration.repository.oneform.MFiBankDetailsRepository;
 import com.capitaworld.mfi.integration.repository.oneform.MFiCurrentFinancialArrangementsDetailsRepository;
-import com.capitaworld.mfi.integration.repository.oneform.MFiExpenseExpectedIncomeDetailsRepository;
+import com.capitaworld.mfi.integration.repository.oneform.MFIEligibilityDetailsRepository;
 import com.capitaworld.mfi.integration.repository.oneform.MFiIncomeDetailsRepository;
 import com.capitaworld.mfi.integration.service.oneform.OneFormService;
 import com.capitaworld.mfi.integration.utils.CommonUtils;
@@ -54,7 +54,7 @@ public class OneFormServiceImpl implements OneFormService {
 	private MFiCurrentFinancialArrangementsDetailsRepository mfiCurrentFinancialArrangementsDetailsRepository;
 	
 	@Autowired 
-	private MFiExpenseExpectedIncomeDetailsRepository mfiExpenseExpectedIncomeDetailsRepository;
+	private MFIEligibilityDetailsRepository mfiEligibilityDetailsRepository;
 	
 	@Autowired 
 	private MFiIncomeDetailsRepository mfiIncomeDetailsRepository;
@@ -97,7 +97,6 @@ public class OneFormServiceImpl implements OneFormService {
 		logger.info("--------- saved saveApplicantDetails ------------ generated ApplicantDetailId: {}", applicantDetailId);
 		
 		saveBankDetails(applicantDetailsRequest.getBankDetails(), applicationId, applicantDetailId);
-		saveExpenseExpectedDetails(applicantDetailsRequest.getExpenseExpectedIncomeDetails(), applicationId, applicantDetailId);
 
 		saveAssetsDetails(applicantDetailsRequest.getAssetsDetailsList(), applicationId,applicantDetailId);
 		saveIncomeDetails(applicantDetailsRequest.getIncomeDetailsList(), applicationId,applicantDetailId);
@@ -127,7 +126,6 @@ public class OneFormServiceImpl implements OneFormService {
 			logger.info("--------- saved saveCoApplicantDetails ------------ generated coApplicantDetailId: {}", coApplicantDetailId);
 			
 			saveBankDetails(coApplicantDetailsRequest.getBankDetails(), applicationId, coApplicantDetailId);
-			saveExpenseExpectedDetails(coApplicantDetailsRequest.getExpenseExpectedIncomeDetails(), applicationId, coApplicantDetailId);
 
 			saveAssetsDetails(coApplicantDetailsRequest.getAssetsDetailsList(), applicationId,coApplicantDetailId);
 			saveIncomeDetails(coApplicantDetailsRequest.getIncomeDetailsList(), applicationId,coApplicantDetailId);
@@ -184,21 +182,6 @@ public class OneFormServiceImpl implements OneFormService {
 		logger.info("--------- saved documentDetail ------------ ");
 	}
 	
-	private void saveExpenseExpectedDetails(ExpenseExpectedIncomeDetailsRequest expenseExpectedDetailsRequest, Long applicationId, Long applicantDetailId) {
-		if(expenseExpectedDetailsRequest == null) {
-			logger.debug("expenseExpectedDetailsRequest is null for applicationId : {}, applicantDetailId : {} so ignoring", applicationId, applicantDetailId);
-			return;
-		}
-		
-		MFiExpenseExpectedIncomeDetails expenseExpectedDetails = mfiExpenseExpectedIncomeDetailsRepository.findByApplicantDetailIdAndIsActiveIsTrue(applicantDetailId);
-		expenseExpectedDetails = CommonUtils.setAuditDetail(expenseExpectedDetailsRequest, expenseExpectedDetails, MFiExpenseExpectedIncomeDetails::new);
-		expenseExpectedDetails.setApplicantDetailId(applicantDetailId);
-		expenseExpectedDetails.setApplicationId(applicationId);
-		mfiExpenseExpectedIncomeDetailsRepository.save(expenseExpectedDetails);
-		
-		logger.info("--------- save saveApplicantExpenseExpectedDetails ------------ ");
-		logger.info("============== Exit from  saveApplicantExpenseExpectedDetails ====================  ");
-	}
 	
 	private void saveAssetsDetails(List<AssetsDetailsRequest> assetsDetailsRequestList, Long applicationId, Long applicantDetailId) {
 		if(assetsDetailsRequestList == null) {

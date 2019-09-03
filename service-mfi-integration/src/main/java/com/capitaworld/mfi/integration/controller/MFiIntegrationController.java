@@ -32,10 +32,12 @@ import com.capitaworld.api.common.lib.model.reverse_api.sanction_disbursed.Requi
 import com.capitaworld.api.common.lib.utils.MultipleJSONObjectHelper;
 import com.capitaworld.mfi.integration.api.api_url_and_constants.CommonConstants;
 import com.capitaworld.mfi.integration.api.api_url_and_constants.MFIApiBaseUrl;
+import com.capitaworld.mfi.integration.api.model.oneform.EligibilityDetailsRequest;
 import com.capitaworld.mfi.integration.api.model.oneform.OneFormRequest;
 import com.capitaworld.mfi.integration.config.AuditComponent;
 import com.capitaworld.mfi.integration.exception.MFIIntegrationException;
 import com.capitaworld.mfi.integration.service.audit.AuditLogDetailService;
+import com.capitaworld.mfi.integration.service.eligibility.EligibilityService;
 import com.capitaworld.mfi.integration.service.oneform.OneFormService;
 import com.capitaworld.mfi.integration.service.token.TokenService;
 import com.capitaworld.mfi.integration.utils.CommonUtils;
@@ -51,6 +53,9 @@ public class MFiIntegrationController {
 
 	@Autowired
 	private OneFormService oneFormService;
+	
+	@Autowired
+	private EligibilityService eligibilityService;
 
 	@Autowired
 	private Environment environment;
@@ -173,6 +178,36 @@ public class MFiIntegrationController {
 			return CommonConstants.CURRENT_API_VERSION + reason;
 		} finally {
 			auditComponent.updateAudit(encryptedString, AuditComponent.SAVE_ONE_FORM_DETAILS, applicationId, -1L, reason, isSuccess);
+		}
+	}
+	
+	@PostMapping(value = MFIApiBaseUrl.SAVE_ELIGIBILITY_DETAILS)
+	public String saveEligibilityDetails(@RequestBody String encryptedString, HttpServletRequest httpServletRequest) {
+
+		String reason = null;
+		Boolean isSuccess = false;
+		logger.info("Application Id in Save saveEligibilityDetails =============>");
+		Long applicationId = null;
+
+		try {
+			EligibilityDetailsRequest eligibilityRequest = verifyToken(httpServletRequest, encryptedString, EligibilityDetailsRequest.class);
+			String errMsg = eligibilityService.saveEligibilityInfo(eligibilityRequest);
+			isSuccess = errMsg == null;
+			logger.info("saveEligibilityDetails==========> res ==> {} ", isSuccess);
+
+			return CommonConstants.CURRENT_API_VERSION + isSuccess;
+		} catch (MFIIntegrationException e) {
+			reason = MultipleJSONObjectHelper.getStackTrace(e);
+			throw e;
+
+		} catch (Exception e) {
+			String exp = MultipleJSONObjectHelper.getStackTrace(e);
+			logger.info("Error while Saving saveEligibilityDetails=====> {} MSG ==> {} ", e);
+			reason = "Error while Saving saveEligibilityDetails=====> Exception ==> Msg==> " + exp;
+
+			return CommonConstants.CURRENT_API_VERSION + reason;
+		} finally {
+			auditComponent.updateAudit(encryptedString, AuditComponent.ELIGIBILITY, applicationId, -1L, reason, isSuccess);
 		}
 	}
 	

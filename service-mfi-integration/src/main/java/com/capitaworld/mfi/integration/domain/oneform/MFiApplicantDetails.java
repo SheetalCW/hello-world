@@ -284,15 +284,6 @@ public class MFiApplicantDetails extends Auditor {
 	@Column(name = "installment_recomandation")
 	private Integer installmentRecomandation;
 
-	/*
-	 * private BankDetailsRequest bankDetails; private
-	 * CurrentFinancialArrangementsDetailsRequest currFinArrangementsDetails;
-	 * private ExpenseExpectedIncomeDetailsRequest expenseExpectedIncomeDetails;
-	 * 
-	 * private IncomeDetailsRequest incomeDetailsList; private AssetsDetailsRequest
-	 * assetsDetailsList;
-	 */
-
 	public Long getId() {
 		return id;
 	}
