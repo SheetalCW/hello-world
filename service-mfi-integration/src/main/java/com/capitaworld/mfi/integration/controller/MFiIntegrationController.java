@@ -32,7 +32,7 @@ import com.capitaworld.api.common.lib.model.reverse_api.sanction_disbursed.Requi
 import com.capitaworld.api.common.lib.utils.MultipleJSONObjectHelper;
 import com.capitaworld.mfi.integration.api.api_url_and_constants.CommonConstants;
 import com.capitaworld.mfi.integration.api.api_url_and_constants.MFIApiBaseUrl;
-import com.capitaworld.mfi.integration.api.model.eligibility.EligibilityDetailsRequest;
+import com.capitaworld.mfi.integration.api.model.eligibility.EligibilityDetailRequest;
 import com.capitaworld.mfi.integration.api.model.matches.MatchesParameterRequest;
 import com.capitaworld.mfi.integration.api.model.oneform.OneFormRequest;
 import com.capitaworld.mfi.integration.api.model.scoring.ScoreParameterDetailsRequest;
@@ -203,7 +203,7 @@ public class MFiIntegrationController {
 		Long applicationId = null;
 
 		try {
-			EligibilityDetailsRequest eligibilityRequest = verifyToken(httpServletRequest, encryptedString, EligibilityDetailsRequest.class);
+			EligibilityDetailRequest eligibilityRequest = verifyToken(httpServletRequest, encryptedString, EligibilityDetailRequest.class);
 			String errMsg = eligibilityService.saveEligibilityInfo(eligibilityRequest);
 			isSuccess = errMsg == null;
 			logger.info("saveEligibilityDetails==========> res ==> {} ", isSuccess);
