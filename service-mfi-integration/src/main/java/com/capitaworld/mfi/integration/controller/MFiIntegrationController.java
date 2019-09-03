@@ -32,15 +32,21 @@ import com.capitaworld.api.common.lib.model.reverse_api.sanction_disbursed.Requi
 import com.capitaworld.api.common.lib.utils.MultipleJSONObjectHelper;
 import com.capitaworld.mfi.integration.api.api_url_and_constants.CommonConstants;
 import com.capitaworld.mfi.integration.api.api_url_and_constants.MFIApiBaseUrl;
-import com.capitaworld.mfi.integration.api.model.oneform.EligibilityDetailsRequest;
+import com.capitaworld.mfi.integration.api.model.eligibility.EligibilityDetailsRequest;
+import com.capitaworld.mfi.integration.api.model.matches.MatchesParameterRequest;
 import com.capitaworld.mfi.integration.api.model.oneform.OneFormRequest;
+import com.capitaworld.mfi.integration.api.model.scoring.ScoreParameterDetailsRequest;
 import com.capitaworld.mfi.integration.config.AuditComponent;
 import com.capitaworld.mfi.integration.exception.MFIIntegrationException;
 import com.capitaworld.mfi.integration.service.audit.AuditLogDetailService;
 import com.capitaworld.mfi.integration.service.eligibility.EligibilityService;
+import com.capitaworld.mfi.integration.service.matches.MatchesService;
 import com.capitaworld.mfi.integration.service.oneform.OneFormService;
+import com.capitaworld.mfi.integration.service.scoring.ScoreParameterDetailsService;
 import com.capitaworld.mfi.integration.service.token.TokenService;
 import com.capitaworld.mfi.integration.utils.CommonUtils;
+
+
 
 
 @RestController
@@ -56,6 +62,12 @@ public class MFiIntegrationController {
 	
 	@Autowired
 	private EligibilityService eligibilityService;
+	
+	@Autowired
+	private ScoreParameterDetailsService scoreParameterDetailsService;
+	
+	@Autowired
+	private MatchesService matchesService;
 
 	@Autowired
 	private Environment environment;
@@ -162,7 +174,8 @@ public class MFiIntegrationController {
 
 		try {
 			OneFormRequest oneFormRequest = verifyToken(httpServletRequest, encryptedString, OneFormRequest.class);
-			isSuccess = oneFormService.saveOneFormInfo(oneFormRequest);
+			String errMsg = oneFormService.saveOneFormInfo(oneFormRequest);
+			isSuccess = errMsg == null;
 			logger.info("saveOneFormDetails==========> res ==> {} ", isSuccess);
 
 			return CommonConstants.CURRENT_API_VERSION + isSuccess;
@@ -208,6 +221,63 @@ public class MFiIntegrationController {
 			return CommonConstants.CURRENT_API_VERSION + reason;
 		} finally {
 			auditComponent.updateAudit(encryptedString, AuditComponent.ELIGIBILITY, applicationId, -1L, reason, isSuccess);
+		}
+	}
+	
+	@PostMapping(value = MFIApiBaseUrl.SAVE_MATCHES_PARAMETER, consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> saveMatchesParameter(@RequestBody String encryptedString , HttpServletRequest httpServletRequest) {
+		logger.info("Enter in saveMatchesParameter()  -----------------> ");
+		MatchesParameterRequest matchesParameterRequest = null;
+		String reason = null;
+		Boolean isSuccess = false;
+		Long applicationId = null;
+		try {
+			matchesParameterRequest = verifyToken(httpServletRequest, encryptedString, MatchesParameterRequest.class);
+			logger.info("Start Saving MatchesParameter in saveMatchesParameter() ------------------APPID-----> {} "  ,  applicationId);
+			String errMsg = matchesService.saveMatchesParameter(matchesParameterRequest);
+			isSuccess = errMsg == null;
+			logger.info("Successully Saving MatchesParameter in saveMatchesParameter() ------------------APPID-----> {} ",  applicationId);
+			
+			return new ResponseEntity<>(CURRENT_API_VERSION + isSuccess, HttpStatus.OK);
+		} catch (MFIIntegrationException  e) {
+			reason = MultipleJSONObjectHelper.getStackTrace(e);
+			throw e;
+		} catch (Exception e) {
+			String exp = MultipleJSONObjectHelper.getStackTrace(e);
+			logger.info("Exception while  Saving MatchesParameter in saveMatchesParameter() -----------------Msg----> {} " , e);
+			reason = "Exception while  Saving BMatchesParameter  -----------------Msg---->" + exp;
+			
+			return new ResponseEntity<>(CURRENT_API_VERSION + reason, HttpStatus.OK);
+		} finally {
+			auditComponent.updateAudit( encryptedString , AuditComponent.MATCHES_PARAMETER, applicationId, -1L, reason, isSuccess);
+
+		}
+	}
+	
+	@PostMapping(value = MFIApiBaseUrl.SAVE_SCORING_DETAILS,  consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> saveScoringInfo(@RequestBody String encryptedString , HttpServletRequest httpServletRequest) {
+		logger.info("Application Id in Save ScoringInfo =============>");	
+		ScoreParameterDetailsRequest scoreParameterDetailsRequest = null;
+		String reason = null;
+		Boolean isSuccess = false;
+		Long applicationId = null;
+		try {
+			scoreParameterDetailsRequest = verifyToken(httpServletRequest, encryptedString, ScoreParameterDetailsRequest.class);
+			String errMsg = scoreParameterDetailsService.saveScoreParameterDetails(scoreParameterDetailsRequest);
+			isSuccess = errMsg == null;
+			logger.info("Scoring Details Parameters saved->");
+			return new ResponseEntity<>(CURRENT_API_VERSION + isSuccess, HttpStatus.OK);
+		} catch (MFIIntegrationException  e) {
+			reason = MultipleJSONObjectHelper.getStackTrace(e);
+			throw e;
+		} catch (Exception e) {
+			String exp = MultipleJSONObjectHelper.getStackTrace(e);
+			logger.info("Error while Saving Scoring Details Info=====> {}" , e);
+			
+			reason = "Error while Saving Scoring Details Info=====> msg ==> {} " + exp;
+			return new ResponseEntity<>(CURRENT_API_VERSION + reason, HttpStatus.OK);
+		} finally {
+			auditComponent.updateAudit( encryptedString ,AuditComponent.SCORING_DETAILS, applicationId, -1L, reason, isSuccess);
 		}
 	}
 	
