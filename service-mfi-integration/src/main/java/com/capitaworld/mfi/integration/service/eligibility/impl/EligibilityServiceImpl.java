@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.capitaworld.mfi.integration.api.model.eligibility.EligibilityDetailsRequest;
+import com.capitaworld.mfi.integration.api.model.eligibility.EligibilityDetailRequest;
 import com.capitaworld.mfi.integration.domain.eligibility.MFIEligibilityDetails;
 import com.capitaworld.mfi.integration.repository.eligibility.MFIEligibilityDetailsRepository;
 import com.capitaworld.mfi.integration.service.eligibility.EligibilityService;
@@ -19,7 +19,7 @@ public class EligibilityServiceImpl implements EligibilityService {
 	private MFIEligibilityDetailsRepository mfiEligibilityDetailsRepository;
 
 	@Override
-	public String saveEligibilityInfo(EligibilityDetailsRequest eligibilityDetailsRequest) {
+	public String saveEligibilityInfo(EligibilityDetailRequest eligibilityDetailsRequest) {
 		Long applicationId = eligibilityDetailsRequest.getApplicationId();
 				
 		MFIEligibilityDetails eligibilityDetails = mfiEligibilityDetailsRepository.findByApplicationIdAndIsActiveIsTrue(applicationId);
