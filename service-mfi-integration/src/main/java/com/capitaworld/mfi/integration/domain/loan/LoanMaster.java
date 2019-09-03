@@ -14,7 +14,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
-import com.capitaworld.mfi.integration.domain.oneform.Auditor;
+import com.capitaworld.mfi.integration.domain.common.Auditor;
 
 /**
  * The persistent class for the fs_loan_application_master database table.

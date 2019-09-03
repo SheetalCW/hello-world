@@ -1,4 +1,4 @@
-package com.capitaworld.mfi.integration.domain.oneform;
+package com.capitaworld.mfi.integration.domain.common;
 
 import java.io.Serializable;
 import java.util.Date;

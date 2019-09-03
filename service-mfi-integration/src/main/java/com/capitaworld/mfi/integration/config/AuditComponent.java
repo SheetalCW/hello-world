@@ -12,7 +12,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import com.capitaworld.api.common.lib.utils.CommonUtils;
-import com.capitaworld.mfi.integration.domain.oneform.AuditMaster;
+import com.capitaworld.mfi.integration.domain.common.AuditMaster;
 import com.capitaworld.mfi.integration.repository.audit.AuditMasterRepository;
 
 @Component

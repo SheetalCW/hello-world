@@ -16,7 +16,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 
-import com.capitaworld.mfi.integration.domain.oneform.Auditor;
+import com.capitaworld.mfi.integration.domain.common.Auditor;
 
 
 @Entity

@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.ObjectUtils;
 
-import com.capitaworld.mfi.integration.domain.oneform.Auditor;
+import com.capitaworld.mfi.integration.domain.common.Auditor;
 
 /** Class for provide common functionalities
  * @author dharmendra.chudasama

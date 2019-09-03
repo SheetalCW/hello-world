@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.capitaworld.mfi.integration.domain.oneform.TokenDetail;
+import com.capitaworld.mfi.integration.domain.token.TokenDetail;
 
 public interface TokenRepository extends JpaRepository<TokenDetail, Long> {
 
