@@ -3,13 +3,14 @@ package com.capitaworld.mfi.integration.service.eligibility.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.capitaworld.mfi.integration.api.model.oneform.EligibilityDetailsRequest;
 import com.capitaworld.mfi.integration.domain.oneform.MFIEligibilityDetails;
 import com.capitaworld.mfi.integration.repository.oneform.MFIEligibilityDetailsRepository;
 import com.capitaworld.mfi.integration.service.eligibility.EligibilityService;
 import com.capitaworld.mfi.integration.utils.CommonUtils;
-
+@Service
 public class EligibilityServiceImpl implements EligibilityService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(EligibilityServiceImpl.class); 
