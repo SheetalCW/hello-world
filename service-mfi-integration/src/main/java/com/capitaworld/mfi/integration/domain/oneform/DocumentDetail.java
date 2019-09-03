@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 
+import com.capitaworld.mfi.integration.domain.common.Auditor;
+
 /** Save any document file
  * @author dharmendra.chudasama
  */

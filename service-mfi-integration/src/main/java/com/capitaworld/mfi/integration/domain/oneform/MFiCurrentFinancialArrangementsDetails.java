@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.capitaworld.mfi.integration.domain.common.Auditor;
+
 @Entity
 @Table(name = "applicant_curr_financial_arrangement_dtls")
 public class MFiCurrentFinancialArrangementsDetails extends Auditor {

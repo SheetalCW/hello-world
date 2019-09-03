@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.capitaworld.mfi.integration.domain.oneform.Auditor;
+import com.capitaworld.mfi.integration.domain.common.Auditor;
 
 @Entity
 @Table(name = "applicant_income_details")

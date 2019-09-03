@@ -14,7 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.capitaworld.mfi.integration.domain.oneform.Auditor;
+import com.capitaworld.mfi.integration.domain.common.Auditor;
 
 
 @Entity

@@ -1,13 +1,13 @@
 package com.capitaworld.mfi.integration.domain.oneform;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.capitaworld.mfi.integration.domain.common.Auditor;
 
 @Entity
 @Table(name = "applicant_expense_expected_income_details")
@@ -64,7 +64,7 @@ public class MFiExpenseExpectedIncomeDetails extends Auditor {
 	@Column(name = "cash_flow")
 	private Double cashFlow;
 
-	@Column(name = "total_monthly_income_for_family")
+	@Column(name = "totl_monthly_income_for_family")
 	private Double totalMonthlyIncomeForFamily;
 
 	@Column(name = "existing_expenses")

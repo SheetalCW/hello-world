@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.capitaworld.api.common.lib.model.common.GenerateTokenRequest;
 import com.capitaworld.api.common.lib.utils.CommonUtils;
-import com.capitaworld.mfi.integration.domain.oneform.TokenDetail;
+import com.capitaworld.mfi.integration.domain.token.TokenDetail;
 import com.capitaworld.mfi.integration.repository.token.TokenRepository;
 import com.capitaworld.mfi.integration.service.token.TokenService;
 

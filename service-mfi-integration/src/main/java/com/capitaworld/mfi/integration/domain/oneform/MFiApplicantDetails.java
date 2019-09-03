@@ -11,6 +11,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.capitaworld.mfi.integration.domain.common.Auditor;
+
 @Entity
 @Table(name = "applicant_details")
 public class MFiApplicantDetails extends Auditor {
@@ -207,20 +209,28 @@ public class MFiApplicantDetails extends Auditor {
 
 	@Column(name = "ppi_acadamic_head_family")
 	private String ppiAcadamicHeadFamily;
+	
 	@Column(name = "ppi_rafrigerator_in_family")
 	private String ppiRafrigeratorInFamily;
+	
 	@Column(name = "ppi_stove_in_family")
 	private String ppiStoveInFamily;
+	
 	@Column(name = "ppi_pressure_cooker_in_family")
 	private String ppiPressureCookerInFamily;
+	
 	@Column(name = "ppi_tv_in_family")
 	private String ppiTvInFamily;
+	
 	@Column(name = "ppi_fan_in_family")
 	private String ppiFanInFamily;
+	
 	@Column(name = "ppi_vehicle_in_family")
 	private String ppiVehicleInFamily;
+	
 	@Column(name = "ppi_dressing_table_in_family")
 	private String ppiDressingTableInFamily;
+	
 	@Column(name = "ppi_other_table_in_family")
 	private String ppiOtherTableInFamily;
 

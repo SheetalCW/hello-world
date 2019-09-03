@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import com.capitaworld.api.common.lib.model.common.AuditMasterRequest;
 import com.capitaworld.api.common.lib.model.reverse_api.sanction_disbursed.RequiredDetailRequest;
 import com.capitaworld.api.common.lib.utils.MultipleJSONObjectHelper;
-import com.capitaworld.mfi.integration.domain.oneform.AuditMaster;
+import com.capitaworld.mfi.integration.domain.common.AuditMaster;
 import com.capitaworld.mfi.integration.repository.audit.AuditMasterRepository;
 import com.capitaworld.mfi.integration.service.audit.AuditLogDetailService;
 import com.fasterxml.jackson.core.JsonProcessingException;
