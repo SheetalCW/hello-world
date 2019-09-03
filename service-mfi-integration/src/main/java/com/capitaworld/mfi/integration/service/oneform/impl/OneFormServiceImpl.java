@@ -13,22 +13,19 @@ import com.capitaworld.mfi.integration.api.model.oneform.AssetsDetailsRequest;
 import com.capitaworld.mfi.integration.api.model.oneform.BankDetailsRequest;
 import com.capitaworld.mfi.integration.api.model.oneform.CurrentFinancialArrangementsDetailsRequest;
 import com.capitaworld.mfi.integration.api.model.oneform.DocumentDetailRequest;
-import com.capitaworld.mfi.integration.api.model.oneform.EligibilityDetailsRequest;
 import com.capitaworld.mfi.integration.api.model.oneform.IncomeDetailsRequest;
 import com.capitaworld.mfi.integration.api.model.oneform.OneFormRequest;
-import com.capitaworld.mfi.integration.domain.oneform.DocumentDetail;
-import com.capitaworld.mfi.integration.domain.oneform.MFIEligibilityDetails;
+import com.capitaworld.mfi.integration.domain.oneform.MFIDocumentDetail;
 import com.capitaworld.mfi.integration.domain.oneform.MFiApplicantDetails;
 import com.capitaworld.mfi.integration.domain.oneform.MFiAssetsDetails;
 import com.capitaworld.mfi.integration.domain.oneform.MFiBankDetails;
 import com.capitaworld.mfi.integration.domain.oneform.MFiCurrentFinancialArrangementsDetails;
 import com.capitaworld.mfi.integration.domain.oneform.MFiIncomeDetails;
-import com.capitaworld.mfi.integration.repository.oneform.DocumentDetailRepository;
+import com.capitaworld.mfi.integration.repository.oneform.MFIDocumentDetailRepository;
 import com.capitaworld.mfi.integration.repository.oneform.MFiApplicantDetailsRepository;
 import com.capitaworld.mfi.integration.repository.oneform.MFiAssetsDetailsRepository;
 import com.capitaworld.mfi.integration.repository.oneform.MFiBankDetailsRepository;
 import com.capitaworld.mfi.integration.repository.oneform.MFiCurrentFinancialArrangementsDetailsRepository;
-import com.capitaworld.mfi.integration.repository.oneform.MFIEligibilityDetailsRepository;
 import com.capitaworld.mfi.integration.repository.oneform.MFiIncomeDetailsRepository;
 import com.capitaworld.mfi.integration.service.oneform.OneFormService;
 import com.capitaworld.mfi.integration.utils.CommonUtils;
@@ -45,7 +42,7 @@ public class OneFormServiceImpl implements OneFormService {
 	private MFiBankDetailsRepository mfiBankDetailsRepository;
 
 	@Autowired
-	private DocumentDetailRepository documentDetailRepository;
+	private MFIDocumentDetailRepository documentDetailRepository;
 	
 	@Autowired 
 	private MFiAssetsDetailsRepository mfiAssetsDetailsRepository;
@@ -53,14 +50,13 @@ public class OneFormServiceImpl implements OneFormService {
 	@Autowired 
 	private MFiCurrentFinancialArrangementsDetailsRepository mfiCurrentFinancialArrangementsDetailsRepository;
 	
-	@Autowired 
-	private MFIEligibilityDetailsRepository mfiEligibilityDetailsRepository;
+	
 	
 	@Autowired 
 	private MFiIncomeDetailsRepository mfiIncomeDetailsRepository;
 
 	@Override
-	public Boolean saveOneFormInfo(OneFormRequest oneFormRequest) {
+	public String saveOneFormInfo(OneFormRequest oneFormRequest) {
 		
 		Long applicationId=oneFormRequest.getApplicationId();
 		ApplicantDetailsRequest applicantDetailsRequest = oneFormRequest.getApplicantDetails();
@@ -69,7 +65,7 @@ public class OneFormServiceImpl implements OneFormService {
 		saveApplicantDetails(applicantDetailsRequest, applicationId);
 		saveCoApplicantDetails(coApplicantDetailsRequestList, applicationId);
 		
-		return true;
+		return null;
 	}
 
 
@@ -168,8 +164,8 @@ public class OneFormServiceImpl implements OneFormService {
 			return;
 		}
 		
-		DocumentDetail documentDetail = documentDetailRepository.findByCwDocIdAndIsActiveIsTrue(documentDetailRequest.getCwDocId());
-		documentDetail = CommonUtils.setAuditDetail(documentDetailRequest, documentDetail, DocumentDetail::new);
+		MFIDocumentDetail documentDetail = documentDetailRepository.findByCwDocIdAndIsActiveIsTrue(documentDetailRequest.getCwDocId());
+		documentDetail = CommonUtils.setAuditDetail(documentDetailRequest, documentDetail, MFIDocumentDetail::new);
 //			documentDetail.setDocumentType(DocumentDetail.DocType.PASSBOOK_IMG_1);
 		documentDetail.setApplicationId(applicationId);
 		documentDetail.setCwDocId(documentDetailRequest.getCwDocId());

@@ -13,11 +13,21 @@ public class OneFormRequest implements AuthRequest {
 	private static final long serialVersionUID = -6246774295805361361L;
 
 	private Long applicationId;
+	private Long fpProductId;
 	private String userName;
 	private String password;
 
 	private ApplicantDetailsRequest applicantDetails;
 	private List<ApplicantDetailsRequest> coApplicantDetailsList;
+
+	
+	public Long getFpProductId() {
+		return fpProductId;
+	}
+
+	public void setFpProductId(Long fpProductId) {
+		this.fpProductId = fpProductId;
+	}
 
 	public Long getApplicationId() {
 		return applicationId;
